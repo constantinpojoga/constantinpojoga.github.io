@@ -28,11 +28,13 @@ var canvas = document.getElementById('myCanvas'),
     moverRight.src = 'img/right.png';
 
     var iceCube    = new Image();   // Create new right element
-    iceCube.src    = 'img/ice-cube.png';
+    iceCube.src    = 'img/ice-cube.png',
+    animationOn    = false;
+
+
     
 var level = 1;
     world       = [];
-
 
 var direction   = [[0, -1], [1, 0], [0, 1], [-1, 0]],
     mover       = [],
@@ -148,6 +150,7 @@ var direction   = [[0, -1], [1, 0], [0, 1], [-1, 0]],
 
   // *********** Reset Level *************
   function resetLevel() {
+    // animationOn = false;
     $(".bubble").html('<p>Are you sure to Reset current level? <br /> (y/n)"</p>');
     // console.log("Are you sure to Reset current level? ? (y/n)")
     document.onkeydown = moverKeyDown; 
@@ -156,6 +159,7 @@ var direction   = [[0, -1], [1, 0], [0, 1], [-1, 0]],
         $(".bubble").html('<p>Restarting level</p>');
         // console.log('You confirm the reset'); // Y, reset current level
         boxes = [];
+        loadingArea = [];
         getWorld();
         mkNewLevel();
         mkBoxes();
@@ -187,6 +191,7 @@ var direction   = [[0, -1], [1, 0], [0, 1], [-1, 0]],
  // Function ********  Level UP  ***********
   function levelUp() {
       var i= 0;     
+      loadingArea = [];
       var time = setInterval(function() {
         ctx.globalCompositeOperation = "destination-out";
         ctx.beginPath();
@@ -211,6 +216,7 @@ var direction   = [[0, -1], [1, 0], [0, 1], [-1, 0]],
 
   // Function *************  GAME OVER  ****************
   function gameOver() {
+    // animationOn = true;
     $(".bubble").html('<h2>GAME</h2><h2>OVER</h2>');
     ctx.clearRect(75, 75, 600, 600);
     var gameOvr = new Image();
@@ -241,6 +247,7 @@ var direction   = [[0, -1], [1, 0], [0, 1], [-1, 0]],
 
   // ********** New Level ******************* 
   function mkNewLevel() {
+    // animationOn = false;
     readkey();  
     ctx.clearRect(0, 0, maxH, maxW);
     for (var i=0; i<10; i++) {
@@ -292,7 +299,7 @@ var direction   = [[0, -1], [1, 0], [0, 1], [-1, 0]],
  
  function intro() {
   $(".bubble").html('<h2>Welcome</h2><h3>to my game</h3>');
-  $(".welcome").html('<h1>Collect all <br />arcons<br /><small>Press any key</small></h1><');
+  $(".welcome").html('<h1>Collect all <br />arcons<br /><small>Press any key</small></h1>');
    document.onkeydown = moverKeyDown; 
     function moverKeyDown(e) { 
       if (e.keyCode) {

@@ -585,6 +585,8 @@ body {
 img {
   position: fixed;
   left: 800px;
+  top: -10px;
+  z-index: 100;
 }
 .commands {
   position: fixed;
@@ -602,12 +604,13 @@ h1 {
   color: #f0f0f5;
   display: inline-block;
   text-align: center;
-  position: fixed;
-  top: 150px;
+  position: relative;
+  top: 170px;
   left: 200px;
   font-size: 80px;
 }
 h1 small {
+  display: inline-block;
   font-size: 30px;
   line-height: .8;
 }
