@@ -570,12 +570,17 @@ p {
   margin-right: 0;
 }
 * {
-  font-family: 'Rock Salt', cursive;
+  font-family: 'Indie Flower', cursive;
+  font-size: 25px;
 }
-#myCanvas {
+.myCanvas {
   position: fixed;
   left: 70px;
   top: 30px;
+}
+.myCanvas h1 {
+  margin-top: 150px;
+  font-size: 100px;
 }
 body {
   background: url("../img/bg.jpg");
@@ -586,7 +591,6 @@ img {
   position: fixed;
   left: 800px;
   top: -10px;
-  z-index: 100;
 }
 .commands {
   position: fixed;
@@ -595,7 +599,7 @@ img {
 }
 .commands p {
   color: #f0f0f5;
-  font-size: 20px;
+  font-size: 30px;
 }
 .commands h2 {
   padding-top: -10px;
@@ -605,14 +609,14 @@ h1 {
   display: inline-block;
   text-align: center;
   position: relative;
-  top: 170px;
+  top: 150px;
   left: 200px;
-  font-size: 80px;
+  font-size: 140px;
+  line-height: .9;
 }
 h1 small {
   display: inline-block;
-  font-size: 30px;
-  line-height: .8;
+  font-size: 70px;
 }
 .bubble {
   text-align: center;
@@ -630,6 +634,23 @@ h1 small {
   top: 30px;
   opacity: .7;
 }
+.bubble h1,
+.bubble h2,
+.bubble h3,
+.bubble h4 {
+  margin-top: -5px 0 0 0;
+  line-height: .8em;
+}
+.bubble h1 {
+  font-size: 60px;
+}
+.bubble h2,
+.bubble h3 {
+  font-size: 50px;
+}
+.bubble h4 {
+  font-size: 30px;
+}
 .bubble:after {
   content: '';
   position: absolute;
@@ -641,4 +662,7 @@ h1 small {
   z-index: 1;
   right: -72px;
   top: 124px;
+}
+span {
+  color: #ff5c33;
 }

@@ -5,21 +5,18 @@ var canvas = document.getElementById('myCanvas'),
     maxW   = canvas.width;
     ctx    = canvas.getContext('2d');
  
+   // loading all images
     var boxImg     = new Image();   // Create new box img 
     boxImg.src     = 'img/nut.png'; // Set source path
-    // boxImg.onload = function() {ctx.drawImage(boxImg, 1000, 1000, 75, 75) }
 
-  // mover's all 4 direction image
     var warningStripes    = new Image();   // Create new right element
     warningStripes.src    = 'img/warning-stripes.png';
-    // warningStripes.onload = function() {ctx.drawImage(warningStripes, 1000, 1000, 75, 75)}
 
     var moverUp    = new Image();   // Create new up img element
     moverUp.src    = 'img/up.png'; 
 
     var moverLeft  = new Image();   // Create new left img element
     moverLeft.src  = 'img/left.png'; 
-    // moverLeft.onload = function() { ctx.drawImage(moverLeft, 1000, 1000, 75, 75) }
 
     var moverDown  = new Image();   // Create new down img element
     moverDown.src  = 'img/down.png'; 
@@ -28,15 +25,14 @@ var canvas = document.getElementById('myCanvas'),
     moverRight.src = 'img/right.png';
 
     var iceCube    = new Image();   // Create new right element
-    iceCube.src    = 'img/ice-cube.png',
-    animationOn    = false;
-
-
+    iceCube.src    = 'img/ice-cube.png';
     
-var level = 1;
-    world       = [];
+    var gameOvr    = new Image();
+    gameOvr.src    = 'img/scrat/3.png';
 
-var direction   = [[0, -1], [1, 0], [0, 1], [-1, 0]],
+var level = 1;
+    world       = [],
+    direction   = [[0, -1], [1, 0], [0, 1], [-1, 0]],
     mover       = [],
     loadingArea = [],
     boxes       = [];
@@ -94,7 +90,7 @@ var direction   = [[0, -1], [1, 0], [0, 1], [-1, 0]],
         if(world[i][j] === 2) mkWall(i, j);    
       }
     }
-     mkLoadingArea();
+    mkLoadingArea();
     mkBoxes();
   }
 
@@ -106,7 +102,6 @@ var direction   = [[0, -1], [1, 0], [0, 1], [-1, 0]],
     if (val == 2) { ctx.drawImage(moverDown, mover[0] * 75, mover[1] * 75, 75, 75) } 
     if (val == 3) { ctx.drawImage(moverLeft, mover[0] * 75, mover[1] * 75, 75, 75) }
   }
-
 
   //  ******* Drawing 1 wall element **********
   function mkWall(x,y) {
@@ -128,12 +123,7 @@ var direction   = [[0, -1], [1, 0], [0, 1], [-1, 0]],
   }
   // *********** exit game *************
   function exitGame() {
-    console.log("Are you sure to exit? ? (y/n)")
-    // dispaly onscreen message 
-    // here
-
-    $(".bubble").html('<p>Are you sure</p><p>to exit the game?</p><p>y/n</p>');
-
+    $(".bubble").html('<h4>Are you sure you want to exit the game?<br /><br /><span>y/n</span></h4>');
     document.onkeydown = moverKeyDown; 
     function moverKeyDown(e) { 
       if (e.keyCode == '89') {
@@ -151,13 +141,11 @@ var direction   = [[0, -1], [1, 0], [0, 1], [-1, 0]],
   // *********** Reset Level *************
   function resetLevel() {
     // animationOn = false;
-    $(".bubble").html('<p>Are you sure to Reset current level? <br /> (y/n)"</p>');
-    // console.log("Are you sure to Reset current level? ? (y/n)")
+    $(".bubble").html('<h4><br />Are you sure to reset current level? <br /> <br /><span>y/n</span>"</h4>');
     document.onkeydown = moverKeyDown; 
     function moverKeyDown(e) { 
       if (e.keyCode == '89') {
-        $(".bubble").html('<p>Restarting level</p>');
-        // console.log('You confirm the reset'); // Y, reset current level
+        $(".bubble").html('<h2>Restarting level</h2>');
         boxes = [];
         loadingArea = [];
         getWorld();
@@ -166,8 +154,7 @@ var direction   = [[0, -1], [1, 0], [0, 1], [-1, 0]],
         mkMover(3)
       }
       if (e.keyCode == '78') {
-        $(".bubble").html('<p>Welcome back</p>');
-        console.log('You turn back to game'); // N, return to game
+        $(".bubble").html('<h2>Welcome back</h2>');
         mkNewLevel(level);
         mkBoxes();
         mkMover(3)
@@ -183,13 +170,16 @@ var direction   = [[0, -1], [1, 0], [0, 1], [-1, 0]],
     });
     if (isLevelUp) {
       if (level === stage.length ) {
-        $(".bubble").html('<p>This was the last level. Check later for more new levels.</p>');
-        // console.log('game over. chech later for new stages') 
+        $(".bubble").html('<h4>Congratulations! <br /><br />This was the last level. <br /><br /><span>Press any key.</span></h4>');
+          document.onkeydown = moverKeyDown; 
+          function moverKeyDown(e) {  if (e.keyCode) {gameOver()}
+          }
     } else levelUp();
     }
   }
  // Function ********  Level UP  ***********
   function levelUp() {
+    document.onkeydown = ""; 
       var i= 0;     
       loadingArea = [];
       var time = setInterval(function() {
@@ -202,7 +192,7 @@ var direction   = [[0, -1], [1, 0], [0, 1], [-1, 0]],
         if (i>45 ) { 
           clearInterval(time);
           ctx.globalCompositeOperation = "destination-over"; 
-     // Load the net level
+     // Load the next level
           level++;
           boxes = [];
           getWorld();
@@ -216,39 +206,34 @@ var direction   = [[0, -1], [1, 0], [0, 1], [-1, 0]],
 
   // Function *************  GAME OVER  ****************
   function gameOver() {
-    // animationOn = true;
     $(".bubble").html('<h2>GAME</h2><h2>OVER</h2>');
+    // ctx.globalCompositeOperation = "destination-over"; 
     ctx.clearRect(75, 75, 600, 600);
-    var gameOvr = new Image();
-    gameOvr.src = 'img/scrat/3.png';
-    gameOvr.onload = function(){
-      ctx.drawImage(gameOvr, 30, 100, 720, 500);
-    };
-      var i= 0;     
-      var time = setInterval(function() {
-      ctx.globalCompositeOperation = "destination-out";
-      ctx.beginPath();
-      ctx.lineWidth = "12";
-      ctx.beginPath();
-      ctx.arc(370,370,700-i*10,0,2*Math.PI);
-      ctx.stroke();
-      if (i>67 ) { 
-        clearInterval(time);
-        ctx.globalCompositeOperation = "destination-over"; 
-        ctx.clearRect(75, 75, 600, 600); 
-        ctx.font = "80px Arial";
-        $(".myCanvas").html('<h1>See You next time!</h1>');
-        $(".commands").html(' ');
-        $("body").css('background-image', 'url(img/bg_exit.jpg)')
-      }
-      i++;
+    ctx.drawImage(gameOvr, 30, 100, 720, 500);
+    // Game over canvas overiting circles
+    var i= 0;     
+    var time = setInterval(function() {
+    ctx.globalCompositeOperation = "destination-out";
+    ctx.beginPath();
+    ctx.lineWidth = "12";
+    ctx.beginPath();
+    ctx.arc(370,370,700-i*10,0,2*Math.PI);
+    ctx.stroke();
+    if (i>67 ) { 
+      clearInterval(time);
+      ctx.globalCompositeOperation = "destination-over"; 
+      ctx.clearRect(75, 75, 600, 600); 
+      ctx.font = "80px Arial";
+      $(".myCanvas").html('<h1>See You next time!</h1>');
+      $(".commands").html(' ');
+      $("body").css('background-image', 'url(img/bg_exit.jpg)')
+    }
+    i++;
     }, 50);   
   }
 
   // ********** New Level ******************* 
   function mkNewLevel() {
-    // animationOn = false;
-    readkey();  
     ctx.clearRect(0, 0, maxH, maxW);
     for (var i=0; i<10; i++) {
       for (var j=0; j<10; j++) {
@@ -260,7 +245,6 @@ var direction   = [[0, -1], [1, 0], [0, 1], [-1, 0]],
           case 4:  {
                     world[i][j] = 0;
                     loadingArea.push([i,j]);
-                    
                     break
                     }
           case 1: { 
@@ -274,15 +258,12 @@ var direction   = [[0, -1], [1, 0], [0, 1], [-1, 0]],
                    }
         }
       }
+      readkey(); 
     }
-    mkLoadingArea();
-    // moverLeft.onload = function() {     
+    mkLoadingArea();    
     mkMover(3);
-    // }  
-    // boxImg.onload = function(){
     mkBoxes();
-    // }
-      $(".bubble").html('<h2>Level</h2><h2>' + level +'</h2>');
+    $(".bubble").html('<h2>Level<br /><br />' + level +'</h2>');
   }
 
   function getWorld(){
