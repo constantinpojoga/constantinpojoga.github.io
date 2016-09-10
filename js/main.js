@@ -280,7 +280,7 @@ var level = 1;
  
  function intro() {
   $(".bubble").html('<h2>Welcome</h2><h3>to my game</h3>');
-  $(".welcome").html('<h1>Collect all <br />arcons<br /><small>Press any key</small></h1>');
+  $(".welcome").html('<h1>Collect all <br />acorns<br /><small>Press any key</small></h1>');
    document.onkeydown = moverKeyDown; 
     function moverKeyDown(e) { 
       if (e.keyCode) {
