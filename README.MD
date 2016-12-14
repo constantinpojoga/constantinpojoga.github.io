@@ -1,8 +1,8 @@
 
-##Ice Age Moving Game.
+##Acorn rush, 
 
-For this game I used HTML, CSS, JavaScript, jQuery.
+#A logical Canvas game, with multiple levels. 
 
-As far as problems go, I had one regarding managing the canvas, and using timing methods in JavaScript. 
+For this game I used HTML, LESS, JavaScript, jQuery.
 
-In future I would like to add a different welkome screen, more animation in game,  and a lot of new levels with different levels of difficulty.
+In future I would like to add a different welkome screen, more animation in game, and add more diverse complexity levels. 
