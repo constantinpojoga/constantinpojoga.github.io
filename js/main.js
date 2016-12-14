@@ -1,9 +1,10 @@
 
-// Canvas Stuff
+// Canvas Size 
 var canvas = document.getElementById('myCanvas'),
     maxH   = canvas.height;
     maxW   = canvas.width;
     ctx    = canvas.getContext('2d');
+    boxSize = Math.floor(maxH/10);
  
    // loading all images
     var boxImg     = new Image();   // Create new box img 
@@ -11,18 +12,14 @@ var canvas = document.getElementById('myCanvas'),
 
     var warningStripes    = new Image();   // Create new right element
     warningStripes.src    = 'img/warning-stripes.png';
+    
+    var moverDirection = [];
 
-    var moverUp    = new Image();   // Create new up img element
-    moverUp.src    = 'img/up.png'; 
-
-    var moverLeft  = new Image();   // Create new left img element
-    moverLeft.src  = 'img/left.png'; 
-
-    var moverDown  = new Image();   // Create new down img element
-    moverDown.src  = 'img/down.png'; 
-
-    var moverRight = new Image();   // Create new right element
-    moverRight.src = 'img/right.png';
+    for (i=0; i<4; i++ ) moverDirection[i] = new Image();   // Create 4 img, one for every direction
+    moverDirection[0].src    = 'img/up.png'; 
+    moverDirection[3].src  = 'img/left.png'; 
+    moverDirection[2].src  = 'img/down.png'; 
+    moverDirection[1].src = 'img/right.png';
 
     var iceCube    = new Image();   // Create new right element
     iceCube.src    = 'img/ice-cube.png';
@@ -30,7 +27,7 @@ var canvas = document.getElementById('myCanvas'),
     var gameOvr    = new Image();
     gameOvr.src    = 'img/scrat/3.png';
 
-var level = 1;
+var level       = 1;
     world       = [],
     direction   = [[0, -1], [1, 0], [0, 1], [-1, 0]],
     mover       = [],
@@ -41,13 +38,13 @@ var level = 1;
 function readkey() {
   document.onkeydown = moverKeyDown; 
   function moverKeyDown(e) { 
-      if(e.keyCode == '38') { move(0); mkMover(0) } // up
-      if(e.keyCode == '39') { move(1); mkMover(1) } // right
-      if(e.keyCode == '40') { move(2); mkMover(2) } // down
-      if(e.keyCode == "37") { move(3); mkMover(3) } // left
-      if(e.keyCode == '27') {exitGame()} // if "esc" exit (y/n)
-      if(e.keyCode == '82' || e.keyCode == '8') {resetLevel()} // if "r" or "return" reset (y/n)
-      }
+    if(e.keyCode == '38') { move(0); mkMover(0) } // up
+    if(e.keyCode == '39') { move(1); mkMover(1) } // right
+    if(e.keyCode == '40') { move(2); mkMover(2) } // down
+    if(e.keyCode == "37") { move(3); mkMover(3) } // left
+    if(e.keyCode == '27') {exitGame()} // if "esc" exit (y/n)
+    if(e.keyCode == '82' || e.keyCode == '8') {resetLevel()} // if "r" or "return" reset (y/n)
+  }
 }
 
 // ********* Making one move on arrow direction ***************
@@ -97,28 +94,25 @@ function redraw() {
 // ********* Making the mover element *********
 function mkMover(val) {
   redraw();
-  if (val == 0) { ctx.drawImage(moverUp, mover[0] * 75, mover[1] * 75, 75, 75) }
-  if (val == 1) { ctx.drawImage(moverRight, mover[0] * 75, mover[1] * 75, 75, 75) }
-  if (val == 2) { ctx.drawImage(moverDown, mover[0] * 75, mover[1] * 75, 75, 75) } 
-  if (val == 3) { ctx.drawImage(moverLeft, mover[0] * 75, mover[1] * 75, 75, 75) }
+  ctx.drawImage(moverDirection[val], mover[0] * boxSize, mover[1] * boxSize, boxSize, boxSize)
 }
 
 //  ******* Drawing 1 wall element **********
 function mkWall(x,y) {
-  ctx.drawImage(iceCube, x * 75, y * 75, '75', '75')
+  ctx.drawImage(iceCube, x * boxSize, y * boxSize, boxSize, boxSize)
 }
 
 // *********** drawing 1 loading area
 function mkLoadingArea() {
   for (var i=0; i<loadingArea.length; i++){
-    ctx.drawImage(warningStripes, loadingArea[i][0] * 75, loadingArea[i][1] * 75, '75', '75')
+    ctx.drawImage(warningStripes, loadingArea[i][0] * boxSize, loadingArea[i][1] * boxSize, boxSize, boxSize)
   }
   
 }
 // ********** Is Making one box *************** 
 function mkBoxes() {
   boxes.forEach(function(val){
-      ctx.drawImage(boxImg, val[0] * 75, val[1] * 75, '75', '75');
+      ctx.drawImage(boxImg, val[0] * boxSize, val[1] * boxSize, boxSize, boxSize);
   })
 }
 // *********** exit game *************
@@ -208,7 +202,7 @@ function levelUp() {
 function gameOver() {
   $(".bubble").html('<h2>GAME</h2><h2>OVER</h2>');
   // ctx.globalCompositeOperation = "destination-over"; 
-  ctx.clearRect(75, 75, 600, 600);
+  ctx.clearRect(boxSize, boxSize, 600, 600);
   ctx.drawImage(gameOvr, 30, 100, 720, 500);
   // Game over canvas overiting circles
   var i= 0;     
@@ -222,7 +216,7 @@ function gameOver() {
   if (i>67 ) { 
     clearInterval(time);
     ctx.globalCompositeOperation = "destination-over"; 
-    ctx.clearRect(75, 75, 600, 600); 
+    ctx.clearRect(boxSize, boxSize, 600, 600); 
     ctx.font = "80px Arial";
     $(".myCanvas").html('<h1>See You next time!</h1>');
     $(".commands").html(' ');
@@ -242,19 +236,19 @@ function mkNewLevel() {
                  mkWall(i, j);
                  break
                  } 
-        case 4:  {
-                  world[i][j] = 0;
-                  loadingArea.push([i,j]);
-                  break
-                  }
+        case 4: {
+                world[i][j] = 0;
+                loadingArea.push([i,j]);
+                break
+                }
         case 1: { 
                  mover = [i, j];
                  world[i][j] = 0;
                  break
                   }
         case 3: { 
-          boxes.push([i, j]);
-          break
+                 boxes.push([i, j]);
+                 break
                  }
       }
     }
