@@ -1,5 +1,5 @@
 
-Ice Age Moving Game.
+##Ice Age Moving Game.
 
 For this game I used HTML, CSS, JavaScript, jQuery.
 
